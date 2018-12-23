@@ -6,6 +6,7 @@ import AuthScreen from "./src/screens/Auth/Auth";
 import SharePlaceScreen from "./src/screens/SharePlace/SharePlace";
 import FindPlaceScreen from "./src/screens/FindPlace/FindPlace";
 import PlaceDetailScreen from "./src/screens/PlaceDetail/PlaceDetail";
+import SideDrawer from "./src/screens/SideDrawer/SideDrawer";
 
 const store = configureStore();
 
@@ -28,22 +29,33 @@ Navigation.registerComponentWithRedux(
   Provider,
   store
 );
-Navigation.registerComponent(
+Navigation.registerComponentWithRedux(
   "MyApp.PlaceDetailScreen",
-  () => PlaceDetailScreen
+  () => PlaceDetailScreen,
+  Provider,
+  store
 );
+Navigation.registerComponent("MyApp.SideDrawerScreen", () => SideDrawer);
 // Start a App
-Navigation.setRoot({
-  root: {
-    component: {
-      name: "MyApp.AuthScreen",
-      options: {
-        topBar: {
-          title: {
-            text: "Login"
+Navigation.events().registerAppLaunchedListener(() => {
+  Navigation.setRoot({
+    root: {
+      stack: {
+        children: [
+          {
+            component: {
+              name: "MyApp.AuthScreen",
+              options: {
+                topBar: {
+                  title: {
+                    text: "Login"
+                  }
+                }
+              }
+            }
           }
-        }
+        ]
       }
     }
-  }
+  });
 });

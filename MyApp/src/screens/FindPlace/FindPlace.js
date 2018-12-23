@@ -6,11 +6,28 @@ import PlaceList from "../../components/PlaceList/PlaceList";
 import { Navigation } from "react-native-navigation";
 
 class FindPlaceScreen extends Component {
+  constructor(props) {
+    super(props);
+    Navigation.events().bindComponent(this);
+  }
+
+  navigationButtonPressed({ buttonId }) {
+    if (buttonId === "sideDrawerToggle") {
+      Navigation.mergeOptions(this.props.componentId, {
+        sideMenu: {
+          left: {
+            visible: true
+          }
+        }
+      });
+    }
+  }
+
   itemSelectedHandler = key => {
     const selPlace = this.props.places.find(place => {
       return place.key === key;
     });
-    Navigation.push(this.props.componentId, {
+    Navigation.push("startTabs", {
       component: {
         name: "MyApp.PlaceDetailScreen",
         passProps: {
