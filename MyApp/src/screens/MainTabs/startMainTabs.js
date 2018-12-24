@@ -11,6 +11,22 @@ const startTabs = () => {
     ),
     Icon.getImageSource(Platform.OS === "android" ? "md-menu" : "ios-menu", 30)
   ]).then(sources => {
+    Navigation.setDefaultOptions({
+      // topBar: {
+      //   leftButtons: [
+      //     {
+      //       color: "red"
+      //     }
+      //   ],
+      //   backButton: {
+      //     color: "red"
+      //   }
+      // },
+      bottomTab: {
+        selectedIconColor: "orange",
+        selectedTextColor: "orange"
+      }
+    });
     Navigation.setRoot({
       root: {
         sideMenu: {
@@ -43,8 +59,7 @@ const startTabs = () => {
                             bottomTab: {
                               text: "Find Place",
                               icon: sources[0]
-                            },
-                            sideMenu: {}
+                            }
                           }
                         }
                       },
@@ -64,8 +79,7 @@ const startTabs = () => {
                             bottomTab: {
                               text: "Share Place",
                               icon: sources[1]
-                            },
-                            sideMenu: {}
+                            }
                           }
                         }
                       }
