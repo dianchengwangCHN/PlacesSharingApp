@@ -16,7 +16,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [GMSServices provideAPIKey:@"AIzaSyA9LHhnK9vokB_HsGlQb57_jxAy-p3ZP4w"]; // add this line using the api key obtained from Google Console
+  [GMSServices provideAPIKey:@"$System.env.GOOGLE_MAP_KEY"]; // add this line using the api key obtained from Google Console
 
   NSURL *jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
   [ReactNativeNavigation bootstrap:jsCodeLocation launchOptions:launchOptions];
