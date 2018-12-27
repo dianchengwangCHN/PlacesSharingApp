@@ -4,6 +4,8 @@ import { AUTH_SET_TOKEN, AUTH_REMOVE_TOKEN } from "./actionTypes";
 import { uiStartLoading, uiStopLoading } from "./index";
 import startMainTabs from "../../screens/MainTabs/startMainTabs";
 
+import { Navigation } from "react-native-navigation";
+
 const API_KEY = "AIzaSyA7DhuVRtCQSl9cXoLyHc3aWAGOUROzUlA";
 
 export const tryAuth = (authData, authMode) => {
@@ -168,5 +170,39 @@ export const authClearStorage = () => {
     AsyncStorage.removeItem("ap:auth:token");
     AsyncStorage.removeItem("ap:auth:expiryDate");
     return AsyncStorage.removeItem("ap:auth:refreshToken");
+  };
+};
+
+export const authLogout = () => {
+  return dispatch => {
+    dispatch(authClearStorage()).then(() => {
+      dispatch(authRemoveToken());
+      Navigation.setRoot({
+        root: {
+          stack: {
+            children: [
+              {
+                component: {
+                  name: "MyApp.AuthScreen",
+                  options: {
+                    topBar: {
+                      title: {
+                        text: "Login"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      });
+    });
+  };
+};
+
+export const authRemoveToken = () => {
+  return {
+    type: AUTH_REMOVE_TOKEN
   };
 };

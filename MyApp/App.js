@@ -35,7 +35,13 @@ Navigation.registerComponentWithRedux(
   Provider,
   store
 );
-Navigation.registerComponent("MyApp.SideDrawerScreen", () => SideDrawer);
+Navigation.registerComponentWithRedux(
+  "MyApp.SideDrawerScreen",
+  () => SideDrawer,
+  Provider,
+  store
+);
+
 // Start a App
 Navigation.events().registerAppLaunchedListener(() => {
   Navigation.setRoot({
