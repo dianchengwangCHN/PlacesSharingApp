@@ -3,23 +3,32 @@ import { View, Image, Button, StyleSheet } from "react-native";
 import ImagePicker from "react-native-image-picker";
 
 class PickImage extends Component {
-  state = {
-    pickedImage: null
+  componentWillMount() {
+    this.reset();
+  }
+
+  reset = () => {
+    this.setState({
+      pickedImage: null
+    });
   };
 
   pickImageHandler = () => {
-    ImagePicker.showImagePicker({ title: "Pick an Image" }, res => {
-      if (res.didCancel) {
-        alert("User cancelled!");
-      } else if (res.error) {
-        alert("Error");
-      } else {
-        this.setState({
-          pickedImage: { uri: res.uri }
-        });
-        this.props.onImagePicked({ uri: res.uri, base64: res.data });
+    ImagePicker.showImagePicker(
+      { title: "Pick an Image", maxWidth: 800, maxHeight: 600 },
+      res => {
+        if (res.didCancel) {
+          alert("User cancelled!");
+        } else if (res.error) {
+          alert("Error");
+        } else {
+          this.setState({
+            pickedImage: { uri: res.uri }
+          });
+          this.props.onImagePicked({ uri: res.uri, base64: res.data });
+        }
       }
-    });
+    );
   };
 
   render() {

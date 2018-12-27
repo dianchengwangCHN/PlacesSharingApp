@@ -42,6 +42,7 @@ const startTabs = () => {
               children: [
                 {
                   bottomTabs: {
+                    id: "bottomTabs",
                     children: [
                       {
                         component: {

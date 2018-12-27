@@ -24,7 +24,7 @@ class FindPlaceScreen extends Component {
     Navigation.events().bindComponent(this);
   }
 
-  componentDidMount() {
+  componentDidAppear() {
     this.props.onLoadPlaces();
   }
 

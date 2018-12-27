@@ -1,4 +1,9 @@
-import { SET_PLACES, REMOVE_PLACE } from "./actionTypes";
+import {
+  SET_PLACES,
+  REMOVE_PLACE,
+  PLACE_ADDED,
+  START_ADD_PLACE
+} from "./actionTypes";
 import { uiStartLoading, uiStopLoading, authGetToken } from "./index";
 
 export const addPlace = (placeName, location, image) => {
@@ -34,7 +39,8 @@ export const addPlace = (placeName, location, image) => {
         const placeData = {
           name: placeName,
           location: location,
-          image: parsedRes.imageUrl
+          image: parsedRes.imageUrl,
+          imagePath: parsedRes.imagePath
         };
         return fetch(
           "https://myapp-1545699976369.firebaseio.com/places.json?auth=" +
@@ -49,12 +55,25 @@ export const addPlace = (placeName, location, image) => {
       .then(parsedRes => {
         console.log(parsedRes);
         dispatch(uiStopLoading());
+        dispatch(placeAdded());
       })
       .catch(err => {
         console.log(err);
         alert("Error occured!");
         dispatch(uiStopLoading());
       });
+  };
+};
+
+export const placeAdded = () => {
+  return {
+    type: PLACE_ADDED
+  };
+};
+
+export const startAddPlace = () => {
+  return {
+    type: START_ADD_PLACE
   };
 };
 

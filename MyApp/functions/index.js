@@ -68,7 +68,8 @@ exports.storeImage = functions.https.onRequest((request, response) => {
                   "/o/" +
                   encodeURIComponent(file.name) +
                   "?alt=media&token=" +
-                  uuid
+                  uuid,
+                imagePath: "/places/" + uuid + ".jpg"
               });
             } else {
               console.log(err);
@@ -83,3 +84,13 @@ exports.storeImage = functions.https.onRequest((request, response) => {
       });
   });
 });
+
+exports.deleteImage = functions.database
+  .ref("/places/{placeId}")
+  .onDelete((snap, context) => {
+    const placeData = snap.val();
+    const imagePath = placeData.imagePath;
+
+    const bucket = gcs.bucket("myapp-1545699976369.appspot.com");
+    return bucket.file(imagePath).delete();
+  });
