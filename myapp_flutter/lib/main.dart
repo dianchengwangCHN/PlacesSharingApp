@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './login/login_page.dart';
+import './pages/auth/auth_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,18 +10,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'MyApp',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: LoginPage(),
+          primarySwatch: Colors.blue,
+          textTheme: TextTheme(button: TextStyle(fontSize: 20)),
+          buttonTheme: ButtonThemeData(
+              buttonColor: Colors.blue[400],
+              disabledColor: Colors.grey[200],
+              padding: EdgeInsets.all(10),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5)))),
+          inputDecorationTheme: InputDecorationTheme(
+              contentPadding: EdgeInsets.all(15),
+              border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
+              filled: true,
+              fillColor: Colors.grey[200])),
+      home: AuthPage(),
     );
   }
 }
