@@ -8,11 +8,12 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
-  String _email;
-  String _password;
+  String authMode = "login";
+  String _email = "";
+  String _password = "";
 
   void authHandler() {
-    print("????");
+    Navigator.pushReplacementNamed(context, "/mainTabs");
   }
 
   @override
@@ -29,8 +30,12 @@ class _AuthPageState extends State<AuthPage> {
               width: MediaQuery.of(context).size.width * 0.8,
               child: Column(
                 children: <Widget>[
+                  Text(
+                    "Please Log In",
+                    style: Theme.of(context).textTheme.headline,
+                  ),
                   PrimaryButton(
-                      text: "Switch to Signup", onPressed: () => print("!!!")),
+                      text: "Switch to Sign Up", onPressed: () => print("!!!")),
                   DefaultInput(
                     decoration:
                         InputDecoration(hintText: "Your E-Mail Address"),
@@ -43,7 +48,7 @@ class _AuthPageState extends State<AuthPage> {
                   ),
                   PrimaryButton(
                     text: "Submit",
-                    onPressed: () => print("???"),
+                    onPressed: authHandler,
                   )
                 ],
               ),

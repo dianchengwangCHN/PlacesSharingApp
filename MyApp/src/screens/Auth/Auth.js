@@ -159,7 +159,7 @@ class AuthScreen extends Component {
     if (this.state.viewMode === "portrait") {
       headingText = (
         <MainText>
-          <HeadingText>Please Sign Up</HeadingText>
+          <HeadingText>Please {this.state.authMode === "login" ? "Login" : "Sign Up"}</HeadingText>
         </MainText>
       );
     }

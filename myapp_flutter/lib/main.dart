@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './pages/auth/auth_page.dart';
+import './pages/main_tabs/main_tabs_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,7 +12,9 @@ class MyApp extends StatelessWidget {
       title: 'MyApp',
       theme: ThemeData(
           primarySwatch: Colors.blue,
-          textTheme: TextTheme(button: TextStyle(fontSize: 20)),
+          textTheme: TextTheme(
+              button: TextStyle(fontSize: 16),
+              headline: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
           buttonTheme: ButtonThemeData(
               buttonColor: Colors.blue[400],
               disabledColor: Colors.grey[200],
@@ -19,11 +22,16 @@ class MyApp extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(5)))),
           inputDecorationTheme: InputDecorationTheme(
-              contentPadding: EdgeInsets.all(15),
-              border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
-              filled: true,
-              fillColor: Colors.grey[200])),
-      home: AuthPage(),
+            contentPadding: EdgeInsets.all(15),
+            border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
+            filled: true,
+            fillColor: Colors.grey[200],
+          )),
+      initialRoute: "/",
+      routes: {
+        "/": (context) => AuthPage(),
+        "/mainTabs": (context) => MainTabsPage(),
+      },
     );
   }
 }
