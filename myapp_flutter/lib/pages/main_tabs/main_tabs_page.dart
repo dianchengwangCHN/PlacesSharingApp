@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../find_place/find_place_page.dart';
 import '../share_place/share_place_page.dart';
+import '../../components/side_drawer/side_drawer_page.dart';
 
 class MainTabsPage extends StatefulWidget {
   @override
@@ -35,14 +36,12 @@ class _MainTabsPageState extends State<MainTabsPage>
       ),
       bottomNavigationBar: Material(
         child: TabBar(
+          labelColor: Colors.orange,
+          unselectedLabelColor: Colors.grey,
           controller: _tabController,
           tabs: <Tab>[
-            Tab(
-                text: "Find Place",
-                icon: Icon(Icons.map, color: Colors.orange)),
-            Tab(
-                text: "Share Place",
-                icon: Icon(Icons.share, color: Colors.orange)),
+            Tab(text: "Find Place", icon: Icon(Icons.map)),
+            Tab(text: "Share Place", icon: Icon(Icons.share)),
           ],
           indicatorColor: Colors.orange,
         ),
