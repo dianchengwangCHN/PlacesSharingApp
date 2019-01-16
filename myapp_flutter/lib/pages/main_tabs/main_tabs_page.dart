@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../find_place/find_place_page.dart';
 import '../share_place/share_place_page.dart';
-import '../../components/side_drawer/side_drawer_page.dart';
 
 class MainTabsPage extends StatefulWidget {
   @override

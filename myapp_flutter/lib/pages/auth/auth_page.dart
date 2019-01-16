@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../components/ui/primary_button.dart';
-import '../../components/ui/default_input.dart';
+import '../../widgets/ui/primary_button.dart';
+import '../../widgets/ui/default_input.dart';
 
 class AuthPage extends StatefulWidget {
   @override
