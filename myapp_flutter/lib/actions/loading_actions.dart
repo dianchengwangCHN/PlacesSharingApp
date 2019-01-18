@@ -1,0 +1,3 @@
+class StartLoadingAction {}
+
+class StopLoadingAction {}

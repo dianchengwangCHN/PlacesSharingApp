@@ -8,9 +8,10 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
-  String authMode = "login";
+  String _authMode = "login";
   String _email = "";
   String _password = "";
+  String _confirmPassword = "";
 
   void authHandler() {
     Navigator.pushReplacementNamed(context, "/mainTabs");
