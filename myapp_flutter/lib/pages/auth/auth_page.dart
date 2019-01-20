@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../widgets/ui/primary_button.dart';
 import '../../widgets/ui/default_input.dart';
+import '../../models/auth_info.dart';
 
 class AuthPage extends StatefulWidget {
   @override
@@ -9,9 +10,34 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   String _authMode = "login";
-  String _email = "";
-  String _password = "";
-  String _confirmPassword = "";
+
+  AuthInfo _email = AuthInfo();
+  AuthInfo _password = AuthInfo();
+  AuthInfo _confirmPassword = AuthInfo();
+
+  void switchAuthModeHandler() {
+    setState(() {
+      _authMode = _authMode == "login" ? "signup" : "login";
+    });
+  }
+
+  void updateInfoHandler(String key, String val) {
+    AuthInfo target;
+    if (key == "email") {
+      target = _email;
+    } else if (key == "password") {
+      target = _password;
+    } else if (key == "confirmPassword") {
+      target = _confirmPassword;
+    } else {
+      return;
+    }
+    setState(() {
+      target.value = val;
+      target.valid = true;
+      target.touched = true;
+    });
+  }
 
   void authHandler() {
     Navigator.pushReplacementNamed(context, "/mainTabs");
@@ -19,6 +45,19 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
+    Widget confirmPasswordInput = Container();
+
+    if (_authMode == "signup") {
+      confirmPasswordInput = DefaultInput(
+        decoration: InputDecoration(
+          hintText: "Confirm Password",
+        ),
+        obscureText: true,
+        keyboardType: TextInputType.text,
+        onChanged: (String val) => updateInfoHandler("confirmPassword", val),
+      );
+    }
+
     return Scaffold(
         body: Stack(fit: StackFit.expand, children: <Widget>[
       Image(
@@ -32,21 +71,31 @@ class _AuthPageState extends State<AuthPage> {
               child: Column(
                 children: <Widget>[
                   Text(
-                    "Please Log In",
+                    "Please ${_authMode == "login" ? "Log In" : "Sign Up"}",
                     style: Theme.of(context).textTheme.headline,
                   ),
                   PrimaryButton(
-                      text: "Switch to Sign Up", onPressed: () => print("!!!")),
-                  DefaultInput(
-                    decoration:
-                        InputDecoration(hintText: "Your E-Mail Address"),
-                    keyboardType: TextInputType.emailAddress,
+                    text:
+                        "Switch to ${_authMode == "login" ? "Sign Up" : "Login"}",
+                    onPressed: switchAuthModeHandler,
                   ),
                   DefaultInput(
-                    decoration: InputDecoration(hintText: "Password"),
+                    decoration: InputDecoration(
+                      hintText: "Your E-Mail Address",
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                    onChanged: (String val) => updateInfoHandler("email", val),
+                  ),
+                  DefaultInput(
+                    decoration: InputDecoration(
+                      hintText: "Password",
+                    ),
                     obscureText: true,
                     keyboardType: TextInputType.text,
+                    onChanged: (String val) =>
+                        updateInfoHandler("password", val),
                   ),
+                  confirmPasswordInput,
                   PrimaryButton(
                     text: "Submit",
                     onPressed: authHandler,

@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 
 class DefaultInput extends StatelessWidget {
-  DefaultInput({this.decoration, this.keyboardType, this.obscureText = false});
-
   final InputDecoration decoration;
   final TextInputType keyboardType;
   final bool obscureText;
+  final String value;
+  final bool valid;
+  final bool touched;
+  final Function onChanged;
+
+  DefaultInput({
+    this.decoration,
+    this.keyboardType,
+    this.obscureText = false,
+    this.value = "",
+    this.valid = false,
+    this.touched = false,
+    this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +28,7 @@ class DefaultInput extends StatelessWidget {
         decoration: decoration,
         keyboardType: keyboardType,
         obscureText: obscureText,
+        onChanged: onChanged,
       ),
     );
   }

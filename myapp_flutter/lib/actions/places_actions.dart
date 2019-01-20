@@ -10,4 +10,8 @@ class SetPlacesAction {
   SetPlacesAction({this.places});
 }
 
-class GetPlacesAction {}
+class RemovePlaceAction {
+  final Place place;
+
+  RemovePlaceAction({this.place});
+}
