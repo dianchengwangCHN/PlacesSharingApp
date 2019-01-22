@@ -7,10 +7,10 @@ class AppState {
   final bool isLoading;
 
   AppState({
-    this.places = const [],
-    this.placeAdded = false,
+    this.places,
+    this.placeAdded,
     this.auth,
-    this.isLoading = false,
+    this.isLoading,
   });
 
   AppState copyWith({

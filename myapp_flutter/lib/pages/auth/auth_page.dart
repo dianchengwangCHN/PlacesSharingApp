@@ -4,16 +4,35 @@ import '../../widgets/ui/default_input.dart';
 import '../../models/auth_info.dart';
 
 class AuthPage extends StatefulWidget {
+  final bool isLoading;
+  final Function onTryAuth;
+  final Function onAutoSignIn;
+
+  AuthPage({
+    this.isLoading,
+    this.onTryAuth,
+    this.onAutoSignIn,
+  });
+
   @override
   _AuthPageState createState() => _AuthPageState();
 }
 
 class _AuthPageState extends State<AuthPage> {
-  String _authMode = "login";
+  String _authMode;
 
-  AuthInfo _email = AuthInfo();
-  AuthInfo _password = AuthInfo();
-  AuthInfo _confirmPassword = AuthInfo();
+  AuthInfo _email;
+  AuthInfo _password;
+  AuthInfo _confirmPassword;
+
+  @override
+  void initState() {
+    super.initState();
+    _authMode = "login";
+    _email = AuthInfo();
+    _password = AuthInfo();
+    _confirmPassword = AuthInfo();
+  }
 
   void switchAuthModeHandler() {
     setState(() {
@@ -39,13 +58,16 @@ class _AuthPageState extends State<AuthPage> {
     });
   }
 
-  void authHandler() {
-    Navigator.pushReplacementNamed(context, "/mainTabs");
-  }
-
   @override
   Widget build(BuildContext context) {
     Widget confirmPasswordInput = Container();
+    Widget submmitButton = PrimaryButton(
+      text: "Submit",
+      onPressed: () {
+        widget.onTryAuth(
+            _email.value, _password.value, _authMode, Navigator.of(context));
+      },
+    );
 
     if (_authMode == "signup") {
       confirmPasswordInput = DefaultInput(
@@ -96,10 +118,7 @@ class _AuthPageState extends State<AuthPage> {
                         updateInfoHandler("password", val),
                   ),
                   confirmPasswordInput,
-                  PrimaryButton(
-                    text: "Submit",
-                    onPressed: authHandler,
-                  )
+                  submmitButton,
                 ],
               ),
             ),

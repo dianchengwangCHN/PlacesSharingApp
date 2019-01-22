@@ -6,10 +6,10 @@ final loadingReducer = combineReducers<bool>([
   TypedReducer<bool, StopLoadingAction>(_stopLoading),
 ]);
 
-bool _startLoading(bool state, dynamic action) {
+bool _startLoading(bool prev, dynamic action) {
   return true;
 }
 
-bool _stopLoading(bool state, dynamic action) {
+bool _stopLoading(bool prev, dynamic action) {
   return false;
 }

@@ -7,10 +7,10 @@ final placesReducer = combineReducers<List<Place>>([
   TypedReducer<List<Place>, RemovePlaceAction>(_removePlace),
 ]);
 
-List<Place> _setPlaces(List<Place> places, SetPlacesAction action) {
+List<Place> _setPlaces(List<Place> prev, SetPlacesAction action) {
   return action.places;
 }
 
-List<Place> _removePlace(List<Place> places, RemovePlaceAction action) {
-  return places.where((place) => place.key != action.place.key).toList();
+List<Place> _removePlace(List<Place> prev, RemovePlaceAction action) {
+  return prev.where((place) => place.key != action.place.key).toList();
 }

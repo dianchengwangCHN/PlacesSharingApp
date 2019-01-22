@@ -1,3 +1,7 @@
-class StartLoadingAction {}
+class StartLoadingAction {
+  StartLoadingAction();
+}
 
-class StopLoadingAction {}
+class StopLoadingAction {
+  StopLoadingAction();
+}

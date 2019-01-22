@@ -6,10 +6,10 @@ final placeAddedReducer = combineReducers<bool>([
   TypedReducer<bool, PlaceAddedAction>(_placeAdded),
 ]);
 
-bool _startAddPlace(bool state, dynamic action) {
+bool _startAddPlace(bool prev, dynamic action) {
   return false;
 }
 
-bool _placeAdded(bool state, dynamic action) {
+bool _placeAdded(bool prev, dynamic action) {
   return true;
 }

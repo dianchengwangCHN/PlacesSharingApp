@@ -7,10 +7,10 @@ final authReducer = combineReducers<Auth>([
   TypedReducer<Auth, AuthRemoveTokenAction>(_removeAuthToken),
 ]);
 
-Auth _setAuthToken(Auth auth, AuthSetTokenAction action) {
+Auth _setAuthToken(Auth prev, AuthSetTokenAction action) {
   return action.auth;
 }
 
-Auth _removeAuthToken(Auth auth, AuthRemoveTokenAction action) {
+Auth _removeAuthToken(Auth prev, AuthRemoveTokenAction action) {
   return Auth();
 }
