@@ -3,14 +3,14 @@ import '../models/models.dart';
 import 'package:redux/redux.dart';
 
 final authReducer = combineReducers<Auth>([
-  TypedReducer<Auth, AuthSetTokenAction>(_setAuthToken),
-  TypedReducer<Auth, AuthRemoveTokenAction>(_removeAuthToken),
+  TypedReducer<Auth, SetTokenAction>(_setAuthToken),
+  TypedReducer<Auth, RemoveTokenAction>(_removeAuthToken),
 ]);
 
-Auth _setAuthToken(Auth prev, AuthSetTokenAction action) {
+Auth _setAuthToken(Auth prev, SetTokenAction action) {
   return action.auth;
 }
 
-Auth _removeAuthToken(Auth prev, AuthRemoveTokenAction action) {
+Auth _removeAuthToken(Auth prev, RemoveTokenAction action) {
   return Auth();
 }

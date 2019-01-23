@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../widgets/side_drawer/side_drawer_page.dart';
+import '../../widgets/side_drawer/side_drawer.dart';
 
 class SharePlacePage extends StatefulWidget {
   @override
