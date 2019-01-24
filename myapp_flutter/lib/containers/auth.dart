@@ -14,6 +14,7 @@ class Auth extends StatelessWidget {
         return AuthPage(
           isLoading: vm.isLoading,
           onTryAuth: vm.onTryAuth,
+          onAutoSignIn: vm.onAutoSignIn,
         );
       },
     );
@@ -35,9 +36,10 @@ class _ViewModel {
     return _ViewModel(
       isLoading: store.state.isLoading,
       onTryAuth: (String email, String password, String authMode,
-          NavigatorState navigator) {
-        store.dispatch(tryAuth(email, password, authMode, navigator));
-      },
+              BuildContext context) =>
+          store.dispatch(tryAuth(email, password, authMode, context)),
+      onAutoSignIn: (BuildContext context) =>
+          store.dispatch(autoSignIn(context)),
     );
   }
 }

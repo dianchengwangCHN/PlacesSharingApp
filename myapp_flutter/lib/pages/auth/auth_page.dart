@@ -28,6 +28,11 @@ class _AuthPageState extends State<AuthPage> {
   @override
   void initState() {
     super.initState();
+
+    if (mounted) {
+      widget.onAutoSignIn(context);
+    }
+
     _authMode = "login";
     _email = AuthInfo();
     _password = AuthInfo();
@@ -64,8 +69,7 @@ class _AuthPageState extends State<AuthPage> {
     Widget submmitButton = PrimaryButton(
       text: "Submit",
       onPressed: () {
-        widget.onTryAuth(
-            _email.value, _password.value, _authMode, Navigator.of(context));
+        widget.onTryAuth(_email.value, _password.value, _authMode, context);
       },
     );
 
