@@ -3,6 +3,7 @@ import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:myapp_flutter/models/models.dart';
 import 'package:myapp_flutter/pages/find_place/find_place_page.dart';
+import 'package:myapp_flutter/actions/app_actions.dart';
 
 class FindPlace extends StatelessWidget {
   @override
@@ -29,7 +30,7 @@ class _ViewModel {
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
       places: store.state.places,
-      onLoadPlaces: () => store.dispatch,
+      onLoadPlaces: () => store.dispatch(getPlaces()),
     );
   }
 }

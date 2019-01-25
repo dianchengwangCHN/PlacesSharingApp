@@ -12,5 +12,5 @@ List<Place> _setPlaces(List<Place> prev, SetPlacesAction action) {
 }
 
 List<Place> _removePlace(List<Place> prev, RemovePlaceAction action) {
-  return prev.where((place) => place.key != action.place.key).toList();
+  return prev.where((place) => place.key != action.key).toList();
 }

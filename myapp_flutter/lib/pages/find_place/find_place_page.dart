@@ -18,10 +18,25 @@ class FindPlacePage extends StatefulWidget {
 }
 
 class _FindPlacePageState extends State<FindPlacePage> {
-  final Function _itemSelectedHandler = (BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => PlaceDetail()));
-  };
+  Function _itemSelectedHandler;
+
+  @override
+  void initState() {
+    super.initState();
+    if (mounted) {
+      widget.onLoadPlaces();
+    }
+    _itemSelectedHandler = (BuildContext context, String key) {
+      Place selPlace = widget.places.firstWhere((place) => place.key == key);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PlaceDetail(
+                    placeName: selPlace.name,
+                    imageURL: selPlace.imageURL,
+                  )));
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +46,11 @@ class _FindPlacePageState extends State<FindPlacePage> {
         title: Text("Find Place"),
       ),
       body: Container(
-          child: PlacesList(
-        onItemSelected: _itemSelectedHandler,
-      )),
+        child: PlacesList(
+          places: widget.places,
+          onItemSelected: _itemSelectedHandler,
+        ),
+      ),
     );
   }
 }

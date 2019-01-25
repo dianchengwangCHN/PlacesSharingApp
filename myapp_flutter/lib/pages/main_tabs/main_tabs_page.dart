@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../find_place/find_place_page.dart';
+import 'package:myapp_flutter/containers/find_place.dart';
 import '../share_place/share_place_page.dart';
 
 class MainTabsPage extends StatefulWidget {
@@ -29,7 +29,7 @@ class _MainTabsPageState extends State<MainTabsPage>
       body: TabBarView(
         controller: _tabController,
         children: <Widget>[
-          FindPlacePage(),
+          FindPlace(),
           SharePlacePage(),
         ],
       ),

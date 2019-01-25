@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 
 class ListItem extends StatelessWidget {
   final String placeName;
+  final String imageURL;
   final Function itemOnTap;
 
-  ListItem({this.placeName, this.itemOnTap});
+  ListItem({
+    this.placeName,
+    this.imageURL,
+    this.itemOnTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +26,13 @@ class ListItem extends StatelessWidget {
                 margin: EdgeInsets.only(right: 10),
                 height: 30,
                 width: 30,
-                child: Image(
-                    image: AssetImage("assets/images/background.jpg"),
-                    fit: BoxFit.fill),
+                child: Image.network(imageURL, fit: BoxFit.fill),
               ),
               Text(placeName ?? "123"),
             ],
           ),
         ),
-        onTap: () => itemOnTap(context),
+        onTap: itemOnTap,
       ),
     );
   }

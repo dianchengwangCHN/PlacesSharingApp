@@ -6,21 +6,24 @@ class PlaceDetail extends StatelessWidget {
   final double longitude;
   final String imageURL;
 
-  PlaceDetail(
-      {this.placeName = "", this.latitude, this.longitude, this.imageURL});
+  PlaceDetail({
+    this.placeName,
+    this.imageURL,
+    this.latitude,
+    this.longitude,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("???"),
+        title: Text(placeName),
       ),
       body: Container(
         margin: EdgeInsets.all(22),
         child: Column(
           children: <Widget>[
-            Image.network(
-                "https://firebasestorage.googleapis.com/v0/b/myapp-1545699976369.appspot.com/o/places%2Fd925bbac-03e3-4785-aac5-589f1795af5c.jpg?alt=media&token=d925bbac-03e3-4785-aac5-589f1795af5c"),
+            Image.network(imageURL),
             Text(
               placeName,
               style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),

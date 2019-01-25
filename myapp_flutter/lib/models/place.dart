@@ -5,7 +5,13 @@ class Place {
   final double latitude;
   final double longitude;
 
-  Place({this.key, this.name, this.imageURL, this.latitude, this.longitude});
+  Place({
+    this.key,
+    this.name,
+    this.imageURL,
+    this.latitude,
+    this.longitude,
+  });
 
   Place copyWith(
       {String key,

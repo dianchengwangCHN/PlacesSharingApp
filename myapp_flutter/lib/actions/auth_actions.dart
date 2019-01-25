@@ -58,8 +58,7 @@ ThunkAction<AppState> tryAuth(
 ThunkAction<AppState> storeToken(String token, String expiresIn String refreshToken) {
   return (Store<AppState> store) async {
     // expiryDate = now + expiresIn
-    // final DateTime expiryDate = DateTime.now().add(Duration(seconds: int.parse(expiresIn)));
-    final DateTime expiryDate = DateTime.now().add(Duration(seconds: 5));
+    final DateTime expiryDate = DateTime.now().add(Duration(seconds: int.parse(expiresIn)));
     final Auth auth = Auth(token: token, expiryDate: expiryDate);
     store.dispatch(SetTokenAction(auth: auth));
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -113,6 +112,8 @@ Future<String> getToken(Store<AppState> store) async {
       ));
       return Future.value(localToken);
     }
+  } else {
+    return Future.error("No token stored");
   }
   String refreshToken = prefs.getString("myapp:auth:refreshToken");
   var client = Client();
