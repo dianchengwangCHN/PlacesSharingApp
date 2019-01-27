@@ -23,7 +23,7 @@ class DefaultInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: 8, bottom: 8),
-      padding: EdgeInsets.all(5),
+      padding: EdgeInsets.only(top: 5, bottom: 5),
       child: TextField(
         decoration: decoration,
         keyboardType: keyboardType,

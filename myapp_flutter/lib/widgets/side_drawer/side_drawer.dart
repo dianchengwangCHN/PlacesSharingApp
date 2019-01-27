@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class SideDrawer extends StatelessWidget {
-  void logoutHandler(BuildContext context) {
-    Navigator.of(context).pushNamed("/");
-  }
+  final Function onLogout;
+
+  SideDrawer({
+    this.onLogout,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class SideDrawer extends StatelessWidget {
                     ],
                   ),
                 ),
-                onTap: () => logoutHandler(context),
+                onTap: () => onLogout(context),
               ),
             ],
           ),

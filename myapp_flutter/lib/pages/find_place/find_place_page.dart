@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../widgets/side_drawer/side_drawer.dart';
+import 'package:myapp_flutter/containers/drawer.dart' as DrawerContainer;
 import '../../widgets/places_list/places_list.dart';
 import '../../pages/place_detail/place_detail.dart';
 import 'package:myapp_flutter/models/models.dart';
@@ -34,6 +34,8 @@ class _FindPlacePageState extends State<FindPlacePage> {
               builder: (context) => PlaceDetail(
                     placeName: selPlace.name,
                     imageURL: selPlace.imageURL,
+                    latitude: selPlace.latitude,
+                    longitude: selPlace.longitude,
                   )));
     };
   }
@@ -41,7 +43,7 @@ class _FindPlacePageState extends State<FindPlacePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: SideDrawer(),
+      drawer: DrawerContainer.Drawer(),
       appBar: AppBar(
         title: Text("Find Place"),
       ),
