@@ -1,13 +1,11 @@
-class AuthInfo {
+class ItemInfo {
   String value;
   bool valid;
   bool touched;
-  Function validator;
 
-  AuthInfo({
+  ItemInfo({
     this.value = "",
     this.valid = false,
     this.touched = false,
-    this.validator,
   });
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../widgets/ui/primary_button.dart';
 import '../../widgets/ui/default_input.dart';
-import '../../models/auth_info.dart';
+import '../../models/models.dart';
+import '../../utils/validators.dart';
 
 class AuthPage extends StatefulWidget {
   final bool isLoading;
@@ -21,9 +22,9 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   String _authMode;
 
-  AuthInfo _email;
-  AuthInfo _password;
-  AuthInfo _confirmPassword;
+  ItemInfo _email;
+  ItemInfo _password;
+  ItemInfo _confirmPassword;
 
   @override
   void initState() {
@@ -34,9 +35,9 @@ class _AuthPageState extends State<AuthPage> {
     }
 
     _authMode = "login";
-    _email = AuthInfo();
-    _password = AuthInfo();
-    _confirmPassword = AuthInfo();
+    _email = ItemInfo();
+    _password = ItemInfo();
+    _confirmPassword = ItemInfo();
   }
 
   void switchAuthModeHandler() {
@@ -46,7 +47,7 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   void updateInfoHandler(String key, String val) {
-    AuthInfo target;
+    ItemInfo target;
     if (key == "email") {
       target = _email;
     } else if (key == "password") {
@@ -58,8 +59,16 @@ class _AuthPageState extends State<AuthPage> {
     }
     setState(() {
       target.value = val;
-      target.valid = true;
       target.touched = true;
+      if (key == "email") {
+        target.valid = isEmailValidator(val);
+      } else if (key == "password") {
+        target.valid = minLenValidator(val, 6);
+      } else if (key == "confirmPassword") {
+        target.valid = equalToValidator(val, _password.value);
+      } else {
+        return;
+      }
     });
   }
 
@@ -68,9 +77,14 @@ class _AuthPageState extends State<AuthPage> {
     Widget confirmPasswordInput = Container();
     Widget submmitButton = PrimaryButton(
       text: "Submit",
-      onPressed: () {
-        widget.onTryAuth(_email.value, _password.value, _authMode, context);
-      },
+      onPressed: !_email.valid ||
+              !_password.valid ||
+              (_authMode == "signup" && !_confirmPassword.valid)
+          ? null
+          : () {
+              widget.onTryAuth(
+                  _email.value, _password.value, _authMode, context);
+            },
     );
 
     if (_authMode == "signup") {
@@ -78,6 +92,8 @@ class _AuthPageState extends State<AuthPage> {
         decoration: InputDecoration(
           hintText: "Confirm Password",
         ),
+        valid: _confirmPassword.valid,
+        touched: _confirmPassword.touched,
         obscureText: true,
         keyboardType: TextInputType.text,
         onChanged: (String val) => updateInfoHandler("confirmPassword", val),
@@ -109,6 +125,8 @@ class _AuthPageState extends State<AuthPage> {
                     decoration: InputDecoration(
                       hintText: "Your E-Mail Address",
                     ),
+                    valid: _email.valid,
+                    touched: _email.touched,
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (String val) => updateInfoHandler("email", val),
                   ),
@@ -116,6 +134,8 @@ class _AuthPageState extends State<AuthPage> {
                     decoration: InputDecoration(
                       hintText: "Password",
                     ),
+                    valid: _password.valid,
+                    touched: _password.touched,
                     obscureText: true,
                     keyboardType: TextInputType.text,
                     onChanged: (String val) =>

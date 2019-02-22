@@ -25,7 +25,17 @@ class DefaultInput extends StatelessWidget {
       margin: EdgeInsets.only(top: 8, bottom: 8),
       padding: EdgeInsets.only(top: 5, bottom: 5),
       child: TextField(
-        decoration: decoration,
+        decoration: valid || !touched
+            ? decoration
+            : decoration.copyWith(
+                fillColor: Colors.red[100],
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    width: 2,
+                    color: Colors.red,
+                  ),
+                ),
+              ),
         keyboardType: keyboardType,
         obscureText: obscureText,
         onChanged: onChanged,

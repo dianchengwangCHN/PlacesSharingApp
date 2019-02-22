@@ -36,13 +36,23 @@ class MyApp extends StatelessWidget {
                 headline: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
             buttonTheme: ButtonThemeData(
                 buttonColor: Colors.blue[400],
-                disabledColor: Colors.grey[200],
+                disabledColor: Colors.grey[300],
                 padding: EdgeInsets.all(10),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(5)))),
             inputDecorationTheme: InputDecorationTheme(
               contentPadding: EdgeInsets.all(15),
-              border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(
+                  width: 1,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  width: 2,
+                  color: Colors.blue,
+                ),
+              ),
               filled: true,
               fillColor: Colors.grey[200],
             )),
