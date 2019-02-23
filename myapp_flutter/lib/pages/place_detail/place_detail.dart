@@ -1,24 +1,23 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter/gestures.dart';
+import 'package:myapp_flutter/models/models.dart';
 
 class PlaceDetail extends StatelessWidget {
-  final String placeName;
-  final double latitude;
-  final double longitude;
-  final String imageURL;
+  final Place place;
+  final Function onDeletePlace;
 
   PlaceDetail({
-    this.placeName,
-    this.imageURL,
-    this.latitude,
-    this.longitude,
+    this.place,
+    this.onDeletePlace,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(placeName),
+        title: Text(place.name),
       ),
       body: Container(
         margin: EdgeInsets.all(22),
@@ -29,13 +28,13 @@ class PlaceDetail extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 0.96,
                 height: MediaQuery.of(context).size.width * 0.54,
                 child: Image.network(
-                  imageURL,
+                  place.imageURL,
                   fit: BoxFit.fitWidth,
                 ),
               ),
             ),
             Text(
-              placeName,
+              place.name,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
@@ -44,20 +43,28 @@ class PlaceDetail extends StatelessWidget {
               height: 200,
               child: GoogleMap(
                 initialCameraPosition: CameraPosition(
-                  target: LatLng(latitude, longitude),
+                  target: LatLng(place.latitude, place.longitude),
                   zoom: 12.0,
                 ),
                 onMapCreated: (GoogleMapController controller) {
                   controller.addMarker(MarkerOptions(
-                    position: LatLng(latitude, longitude),
+                    position: LatLng(place.latitude, place.longitude),
                   ));
                 },
+                gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+                  Factory<OneSequenceGestureRecognizer>(
+                    () => EagerGestureRecognizer(),
+                  ),
+                ].toSet(),
               ),
             ),
-            Icon(
-              Icons.delete,
-              size: 30,
-              color: Colors.red,
+            IconButton(
+              icon: Icon(
+                Icons.delete,
+                color: Colors.red,
+              ),
+              iconSize: 30,
+              onPressed: () => onDeletePlace(place.key, context),
             )
           ],
         ),

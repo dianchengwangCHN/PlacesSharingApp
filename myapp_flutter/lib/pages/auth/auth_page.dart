@@ -75,17 +75,23 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     Widget confirmPasswordInput = Container();
-    Widget submmitButton = PrimaryButton(
-      text: "Submit",
-      onPressed: !_email.valid ||
-              !_password.valid ||
-              (_authMode == "signup" && !_confirmPassword.valid)
-          ? null
-          : () {
-              widget.onTryAuth(
-                  _email.value, _password.value, _authMode, context);
-            },
-    );
+    Widget submmitButton = widget.isLoading
+        ? SizedBox(
+            height: 24,
+            width: 24,
+            child: CircularProgressIndicator(),
+          )
+        : PrimaryButton(
+            text: "Submit",
+            onPressed: !_email.valid ||
+                    !_password.valid ||
+                    (_authMode == "signup" && !_confirmPassword.valid)
+                ? null
+                : () {
+                    widget.onTryAuth(
+                        _email.value, _password.value, _authMode, context);
+                  },
+          );
 
     if (_authMode == "signup") {
       confirmPasswordInput = DefaultInput(

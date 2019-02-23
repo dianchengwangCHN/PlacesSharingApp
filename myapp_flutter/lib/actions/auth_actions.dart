@@ -77,9 +77,12 @@ ThunkAction<AppState> storeToken(String token, String expiresIn String refreshTo
 
 ThunkAction<AppState> autoSignIn(BuildContext context) {
   return (Store<AppState> store) async {
-    getToken(store)
-    .then((_) => Navigator.pushReplacementNamed(context, "/mainTabs"))
-    .catchError(() => print("Failed to fetch token!"));
+    try {
+      await getToken(store);
+      Navigator.pushReplacementNamed(context, "/mainTabs");
+    } catch(e) {
+      print("Failed to fetch token!");
+    }
   };
 }
 

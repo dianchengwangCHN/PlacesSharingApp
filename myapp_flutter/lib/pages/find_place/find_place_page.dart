@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myapp_flutter/containers/drawer.dart' as DrawerContainer;
 import '../../widgets/places_list/places_list.dart';
-import '../../pages/place_detail/place_detail.dart';
 import 'package:myapp_flutter/models/models.dart';
+import 'package:myapp_flutter/containers/place_detail_container.dart';
 
 class FindPlacePage extends StatefulWidget {
   final List<Place> places;
@@ -31,12 +31,10 @@ class _FindPlacePageState extends State<FindPlacePage> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => PlaceDetail(
-                    placeName: selPlace.name,
-                    imageURL: selPlace.imageURL,
-                    latitude: selPlace.latitude,
-                    longitude: selPlace.longitude,
-                  )));
+            builder: (context) => PlaceDetailContainer(
+                  place: selPlace,
+                ),
+          ));
     };
   }
 

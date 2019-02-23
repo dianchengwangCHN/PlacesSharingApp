@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp_flutter/containers/find_place.dart';
-import '../share_place/share_place_page.dart';
+import 'package:myapp_flutter/containers/share_place.dart';
 
 class MainTabsPage extends StatefulWidget {
   @override
@@ -30,7 +30,7 @@ class _MainTabsPageState extends State<MainTabsPage>
         controller: _tabController,
         children: <Widget>[
           FindPlace(),
-          SharePlacePage(),
+          SharePlace(),
         ],
       ),
       bottomNavigationBar: Material(

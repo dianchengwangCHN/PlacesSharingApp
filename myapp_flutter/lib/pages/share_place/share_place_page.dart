@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:myapp_flutter/containers/drawer.dart' as DrawerContainer;
 import 'package:myapp_flutter/models/models.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:io';
+import 'package:myapp_flutter/widgets/image_collector/image_collector.dart';
 import 'package:myapp_flutter/widgets/ui/primary_button.dart';
 import 'package:myapp_flutter/widgets/ui/default_input.dart';
 import 'package:flutter/gestures.dart';
@@ -11,6 +13,18 @@ import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 
 class SharePlacePage extends StatefulWidget {
+  final bool isLoading;
+  final bool placeAdded;
+  final Function onAddPlace;
+  final Function onStartAddPlace;
+
+  SharePlacePage({
+    this.isLoading,
+    this.placeAdded,
+    this.onAddPlace,
+    this.onStartAddPlace,
+  });
+
   @override
   _SharePlacePageState createState() => _SharePlacePageState();
 }
@@ -28,6 +42,7 @@ class _SharePlacePageState extends State<SharePlacePage> {
   @override
   void initState() {
     super.initState();
+    _image = null;
     _latitude = 39.9611755;
     _longitude = -82.9987942;
     _postionUpdated = false;
@@ -41,11 +56,16 @@ class _SharePlacePageState extends State<SharePlacePage> {
   }
 
   void _imagePickHandler() async {
-    var image = await ImagePicker.pickImage(
-      source: ImageSource.camera,
-      maxWidth: 800,
-      maxHeight: 600,
-    );
+    var image;
+    try {
+      image = await ImagePicker.pickImage(
+        source: ImageSource.camera,
+        maxWidth: 800,
+        maxHeight: 600,
+      );
+    } catch (e) {
+      print(e);
+    }
     setState(() {
       _image = image;
     });
@@ -101,86 +121,92 @@ class _SharePlacePageState extends State<SharePlacePage> {
     );
   }
 
+  _updateNameHandler(String val) {
+    setState(() {
+      _placeName.value = val;
+      _placeName.touched = true;
+      _placeName.valid = val.length > 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    Widget submitButton = widget.isLoading
+        ? SizedBox(
+            height: 24,
+            width: 24,
+            child: CircularProgressIndicator(),
+          )
+        : PrimaryButton(
+            text: "Share This Place",
+            onPressed: _image != null && _postionUpdated && _placeName.valid
+                ? () {
+                    widget.onAddPlace(
+                        _placeName.value, _latitude, _longitude, _image);
+                  }
+                : null,
+          );
+
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       drawer: DrawerContainer.Drawer(),
       appBar: AppBar(
         title: Text("Share Place"),
       ),
-      body: Container(
-        child: ListView(
-          children: <Widget>[
-            Center(
-              child: Text(
-                "Share a place with us!",
-                style: Theme.of(context).textTheme.headline,
-              ),
-            ),
-            Center(
-                child: Container(
-              width: MediaQuery.of(context).size.width * 0.96,
-              height: MediaQuery.of(context).size.width * 0.54,
-              child: _image == null
-                  ? Container(
-                      color: Colors.grey[300],
-                      child: Center(
-                        child: Text(
-                          "No image selected",
-                          style: TextStyle(fontSize: 24),
-                        ),
-                      ))
-                  : Image.file(
-                      _image,
-                      fit: BoxFit.cover,
-                    ),
-            )),
-            Center(
-              child: PrimaryButton(
-                text: "Pick Image",
-                onPressed: _imagePickHandler,
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.all(8),
-              height: 200.0,
-              child: GoogleMap(
-                onMapCreated: (controller) => _onMapCreated(controller),
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(_latitude, _longitude),
-                  zoom: 12.0,
+      body: GestureDetector(
+        onTap: () {
+          SystemChannels.textInput.invokeMethod('TextInput.hide');
+        },
+        child: Container(
+          child: ListView(
+            children: <Widget>[
+              Center(
+                child: Text(
+                  "Share a place with us!",
+                  style: Theme.of(context).textTheme.headline,
                 ),
-                trackCameraPosition: true,
-                gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
-                  Factory<OneSequenceGestureRecognizer>(
-                    () => EagerGestureRecognizer(),
+              ),
+              ImageCollector(
+                image: _image,
+                imagePickHandler: _imagePickHandler,
+              ),
+              Container(
+                margin: EdgeInsets.all(8),
+                height: 200.0,
+                child: GoogleMap(
+                  onMapCreated: (controller) => _onMapCreated(controller),
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(_latitude, _longitude),
+                    zoom: 12.0,
                   ),
-                ].toSet(),
+                  trackCameraPosition: true,
+                  gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+                    Factory<OneSequenceGestureRecognizer>(
+                      () => EagerGestureRecognizer(),
+                    ),
+                  ].toSet(),
+                ),
               ),
-            ),
-            Center(
-              child: PrimaryButton(
-                text: "Locate Me",
-                onPressed: _image != null && _postionUpdated && _placeName.valid
-                    ? _locationPickHandler
-                    : null,
+              Center(
+                child: PrimaryButton(
+                  text: "Locate Me",
+                  onPressed: _locationPickHandler,
+                ),
               ),
-            ),
-            DefaultInput(
-              decoration: InputDecoration(
-                hintText: "Place Name",
+              DefaultInput(
+                decoration: InputDecoration(
+                  hintText: "Place Name",
+                ),
+                valid: _placeName.valid,
+                touched: _placeName.touched,
+                keyboardType: TextInputType.text,
+                onChanged: (String val) => _updateNameHandler(val),
               ),
-              valid: _placeName.valid,
-              touched: _placeName.touched,
-              keyboardType: TextInputType.text,
-            ),
-            Center(
-              child: PrimaryButton(
-                text: "Share This Place",
-                onPressed: () {},
+              Center(
+                child: submitButton,
               ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );
