@@ -95,7 +95,7 @@ export const authGetToken = () => {
             const parsedExpiryDate = new Date(parseInt(expiryDate));
             const now = new Date();
             if (parsedExpiryDate > now) {
-              dispatch(authSetToken(fetchedToken));
+              dispatch(authSetToken(fetchedToken, parsedExpiryDate));
               resolve(fetchedToken);
             } else {
               reject();

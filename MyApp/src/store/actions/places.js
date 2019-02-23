@@ -120,7 +120,7 @@ export const deletePlace = key => {
   return dispatch => {
     dispatch(authGetToken())
       .catch(() => {
-        alert("No valid token found!");
+        console.log("No valid token found!");
       })
       .then(token => {
         dispatch(removePlace(key));

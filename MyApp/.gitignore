@@ -57,3 +57,7 @@ functions/myapp.json
 
 # Bundle artifact
 *.jsbundle
+
+
+# API Key
+functions/myapp.json
