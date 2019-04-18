@@ -46,11 +46,12 @@ class PlaceDetail extends StatelessWidget {
                   target: LatLng(place.latitude, place.longitude),
                   zoom: 12.0,
                 ),
-                onMapCreated: (GoogleMapController controller) {
-                  controller.addMarker(MarkerOptions(
+                markers: Set<Marker>.of([
+                  Marker(
                     position: LatLng(place.latitude, place.longitude),
-                  ));
-                },
+                    markerId: MarkerId("placeMarker"),
+                  )
+                ]),
                 gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
                   Factory<OneSequenceGestureRecognizer>(
                     () => EagerGestureRecognizer(),

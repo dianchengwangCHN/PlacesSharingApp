@@ -47,11 +47,14 @@ class _SharePlacePageState extends State<SharePlacePage> {
     _longitude = -82.9987942;
     _postionUpdated = false;
     _placeName = ItemInfo();
+    _placeMarker = Marker(
+      position: LatLng(_latitude, _longitude),
+      markerId: MarkerId("placeMarker"),
+    );
   }
 
   @override
   void dispose() {
-    _mapController.removeListener(_onMapChanged);
     super.dispose();
   }
 
@@ -74,37 +77,17 @@ class _SharePlacePageState extends State<SharePlacePage> {
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
       _mapController = controller;
-      _mapController
-          .addMarker(MarkerOptions(
-            position: LatLng(_latitude, _longitude),
-            draggable: true,
-            visible: true,
-          ))
-          .then((marker) => _placeMarker = marker);
-      _mapController.addListener(_onMapChanged);
     });
   }
 
-  void _onMapChanged() {
+  void _updateLocation(LatLng location) {
     setState(() {
-      _extractMapInfo();
-    });
-  }
-
-  void _extractMapInfo() {
-    var position = _mapController.cameraPosition;
-    _latitude = position.target.latitude;
-    _longitude = position.target.longitude;
-  }
-
-  void _locationPickHandler() async {
-    Position position = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-
-    setState(() {
-      _latitude = position.latitude;
-      _longitude = position.longitude;
+      _latitude = location.latitude;
+      _longitude = location.longitude;
       _postionUpdated = true;
+      _placeMarker = _placeMarker.copyWith(
+        positionParam: LatLng(_latitude, _longitude),
+      );
     });
 
     _mapController.animateCamera(
@@ -112,13 +95,17 @@ class _SharePlacePageState extends State<SharePlacePage> {
         LatLng(_latitude, _longitude),
       ),
     );
+  }
 
-    _mapController.updateMarker(
-      _placeMarker,
-      MarkerOptions(
-        position: LatLng(_latitude, _longitude),
-      ),
-    );
+  void _locationPickHandler() async {
+    Position position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+    _updateLocation(LatLng(position.latitude, position.longitude));
+  }
+
+  _mapOnTapHandler(LatLng location) {
+    _updateLocation(location);
   }
 
   _updateNameHandler(String val) {
@@ -179,7 +166,8 @@ class _SharePlacePageState extends State<SharePlacePage> {
                     target: LatLng(_latitude, _longitude),
                     zoom: 12.0,
                   ),
-                  trackCameraPosition: true,
+                  markers: Set<Marker>.of([_placeMarker]),
+                  onTap: (location) => _mapOnTapHandler(location),
                   gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
                     Factory<OneSequenceGestureRecognizer>(
                       () => EagerGestureRecognizer(),
